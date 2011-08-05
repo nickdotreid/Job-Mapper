@@ -1,28 +1,32 @@
-import urllib
-from xml.dom.minidom import parseString
+from craigsuck import craigslist
 import re
 
-def get_XML(source):
-	feed = urllib.urlopen(source)
-	return parseString(feed.read())
+listings = ['http://sfbay.craigslist.org/acc/','http://sfbay.craigslist.org/ofc/','http://sfbay.craigslist.org/egr/']
 
-def parse_jobs(xml):
-	jobs = []
-	items = xml.getElementsByTagName('item')
-	for node in items:
-		job = {}
-		job['title'] = node.getElementsByTagName('title')[0].firstChild.data
-		parts = re.split('\(',job['title'])
+def parse_craigslist_post(post):
+	if post['title']:
+		parts = re.split('\(',post['title'])
 		if len(parts)>0:
-			job['neighborhood'] = parts.pop().rstrip(')')
-			print job['neighborhood']
-		job['link'] = node.getElementsByTagName('link')[0].firstChild.data
-		link_parts = re.split('/',job['link'].lstrip('http://').rstrip('.html'))
+			post['neighborhood'] = parts.pop().rstrip(')')
+	if post['link']:
+		link_parts = re.split('/',post['link'].lstrip('http://').rstrip('.html'))
 		if link_parts[3]:
-			job['id'] = link_parts[3]
+			post['id'] = link_parts[3]
 		if link_parts[2]:
-			job['type'] = link_parts[2]
+			post['type'] = link_parts[2]
 		if link_parts[1]:
-			job['city'] = link_parts[1]
-		jobs.append(job)
-	return jobs
+			post['city'] = link_parts[1]
+		if link_parts[0]:
+			post['source'] = link_parts[0]
+	return post
+
+def save_post(post):
+	#if post id does not exist // save it
+	return True
+	
+def query_craigslist(listings):
+	posts = craigslist.fetch_all(listings)
+	for post in posts:
+		parsed = parse_craigslist_post(post)
+		save_post(parsed)
+		print parsed
