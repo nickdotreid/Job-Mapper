@@ -7,13 +7,15 @@ def init_db():
 
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	post_id = db.Column(db.String(120),unique=True)
+	post_id = db.Column(db.String(120))
 	post_type = db.Column(db.String(10))
 	
 	post_date = db.Column(db.DateTime)
 	remove_date = db.Column(db.DateTime, nullable=True)
 	
+	title = db.Column(db.String(500))
 	link = db.Column(db.String(300))
+	
 	source = db.Column(db.String(100))
 	city = db.Column(db.String(300))
 	neighborhood = db.Column(db.String(300))
