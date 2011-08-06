@@ -4,7 +4,7 @@ import re
 import time
 from datetime import datetime
 
-listings = ['http://sfbay.craigslist.org/acc/','http://sfbay.craigslist.org/ofc/','http://sfbay.craigslist.org/egr/']
+listings = ['http://sfbay.craigslist.org/acc/','http://sfbay.craigslist.org/ofc/','http://sfbay.craigslist.org/egr/','http://sfbay.craigslist.org/med/','http://sfbay.craigslist.org/sci/','http://sfbay.craigslist.org/bus/','http://sfbay.craigslist.org/csr/','http://sfbay.craigslist.org/edu/','http://sfbay.craigslist.org/fbh/','http://sfbay.craigslist.org/lab/','http://sfbay.craigslist.org/gov/','http://sfbay.craigslist.org/hum/','http://sfbay.craigslist.org/eng/']
 
 def parse_craigslist_post(post):
 	if post['title']:
