@@ -20,10 +20,11 @@ class Post(db.Model):
 	city = db.Column(db.String(300))
 	neighborhood = db.Column(db.String(300))
 
-	def __init__(self, post_id, post_type='test', post_date=datetime.datetime.now(), link='http://sfbay.craigslist.org', source='test source', city='test city', neighborhood='test neighborhood'):
+	def __init__(self, post_id, post_type='test', post_date=datetime.datetime.now(), title='test', link='http://sfbay.craigslist.org', source='test source', city='test city', neighborhood='test neighborhood'):
 		self.post_id = post_id
 		self.post_type = post_type
 		self.post_date = post_date
+		self.title = title
 		self.link = link
 		self.source = source
 		self.city = city
