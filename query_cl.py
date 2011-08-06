@@ -1,3 +1,3 @@
 from data import *
 
-query_craigslist(listings)
+query_craigslist(listings,True)

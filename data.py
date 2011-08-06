@@ -4,7 +4,7 @@ import re
 import time
 from datetime import datetime
 
-listings = ['http://sfbay.craigslist.org/acc/','http://sfbay.craigslist.org/ofc/','http://sfbay.craigslist.org/egr/','http://sfbay.craigslist.org/med/','http://sfbay.craigslist.org/sci/','http://sfbay.craigslist.org/bus/','http://sfbay.craigslist.org/csr/','http://sfbay.craigslist.org/edu/','http://sfbay.craigslist.org/fbh/','http://sfbay.craigslist.org/lab/','http://sfbay.craigslist.org/gov/','http://sfbay.craigslist.org/hum/','http://sfbay.craigslist.org/eng/']
+listings = ['http://sfbay.craigslist.org/acc/','http://sfbay.craigslist.org/ofc/','http://sfbay.craigslist.org/egr/','http://sfbay.craigslist.org/med/','http://sfbay.craigslist.org/sci/','http://sfbay.craigslist.org/bus/','http://sfbay.craigslist.org/csr/','http://sfbay.craigslist.org/edu/','http://sfbay.craigslist.org/fbh/','http://sfbay.craigslist.org/lab/','http://sfbay.craigslist.org/gov/','http://sfbay.craigslist.org/hum/','http://sfbay.craigslist.org/eng/','http://sfbay.craigslist.org/lgl/','http://sfbay.craigslist.org/mnu/','http://sfbay.craigslist.org/mar/','http://sfbay.craigslist.org/hea/','http://sfbay.craigslist.org/npo/','http://sfbay.craigslist.org/rej/','http://sfbay.craigslist.org/ret/','http://sfbay.craigslist.org/sls/','http://sfbay.craigslist.org/spa/','http://sfbay.craigslist.org/sec/','http://sfbay.craigslist.org/trd/','http://sfbay.craigslist.org/sof/','http://sfbay.craigslist.org/sad/','http://sfbay.craigslist.org/tch/','http://sfbay.craigslist.org/trp/','http://sfbay.craigslist.org/tfr/','http://sfbay.craigslist.org/web/','http://sfbay.craigslist.org/wri/','http://sfbay.craigslist.org/wri/']
 
 def parse_craigslist_post(post):
 	if post['title']:
@@ -33,9 +33,14 @@ def save_post(post):
 		db.session.commit()
 		return True
 	return False
-def query_craigslist(listings):
+def query_craigslist(listings,verbose = False):
 	posts = craigslist.fetch_all(listings)
+	count = 0
 	for post in posts:
 		parsed = parse_craigslist_post(post)
 		if save_post(parsed):
-			print parsed
+			count += 1
+			if verbose:
+				print parsed['title']+"//"+parsed['post_type']
+	if verbose:
+		print str(count)+" new posts added"
