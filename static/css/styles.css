@@ -4,3 +4,13 @@ body{
 	color:#333;
 	background:#FFF;
 }
+
+#foot{
+	font-size:0.8em;
+}
+
+.wrapper{
+	margin:0px auto;
+	position:relative;
+	width:850px;
+}

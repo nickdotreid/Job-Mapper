@@ -1,15 +1,21 @@
 <html>
 <head>
 	<title>Bay Job</title>
-	<link type="text/css" media="screen" href="/static/css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
 </head>
 <body>
-	<h1>Bay Jobs</h1>
-	<div id="content">
+	<div id="head" class="wrapper">
+		<h1>Bay Jobs</h1>
+	</div>
+	<div id="content" class="wrapper">
 		{% block content %}
 		<p>Default Content</p>
 		{% endblock %}
+	</div>
+	<div id="foot" class="wrapper">
+		<p>A small graphing app by nickreid</p>
+		<p>All data has been gracefully scrapped from craigslist.org</p>
 	</div>
 </body>
 </html>
