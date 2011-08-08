@@ -34,4 +34,4 @@ def get_jobs():
 				if post.post_type == post_type:
 					count += 1
 			response_types[post_type] = count
-	return jsonify(total = jobs,types = response_types)
+	return jsonify(total = len(posts),types = response_types)

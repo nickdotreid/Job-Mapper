@@ -18,3 +18,35 @@ body{
 	position:relative;
 	width:850px;
 }
+
+#job_types .type{
+	display:block;
+	float:left;
+	margin-right:7px;
+}
+
+.region{
+	clear:both;
+	display:block;
+	margin:14px 0px 0px;
+}
+
+.region .display{
+	height:50px;
+}
+.region .display .type{
+	border-right:1px solid #666;
+	background:#CCC;
+	float:left;
+	display:block;
+	width:20px;
+	height:50px;
+}
+.region .display .type.selected{
+	background-color:#85bbcf;
+}
+
+#add_new{
+	clear:both;
+	margin:21px 0px 0px;
+}
