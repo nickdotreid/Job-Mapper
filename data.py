@@ -28,11 +28,26 @@ def parse_craigslist_post(post):
 
 def save_post(post):
 	if Post.query.filter_by(post_id=post['post_id']).first() is None:
-		item = Post(post['post_id'],post['post_type'],post['post_date'],post['link'],post['source'],post['city'],post['neighborhood'])
+		post_type = save_post_type(post['post_type'])
+		item = Post(post['post_id'],post['post_date'],post['link'],post['source'],post['city'],post['neighborhood'])
+		item.post_type = post_type
 		db.session.add(item)
 		db.session.commit()
 		return True
 	return False
+
+def save_post_type(short):
+	post_type = PostType.query.filter_by(short=short).first()
+	if post_type is None:
+		post_type = PostType(short)
+		db.session.add(post_type)
+		db.session.commit()
+		return post_type
+	return post_type
+
+def save_post_region(name):
+	return name
+
 def query_craigslist(listings,verbose = False):
 	posts = craigslist.fetch_all(listings)
 	count = 0
