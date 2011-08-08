@@ -32,3 +32,14 @@ class Post(db.Model):
 
 	def __repr__(self):
 		return '<Post %r>' % self.post_id+" "+self.post_type
+		
+class Type(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	short = db.Column(db.String(10))
+	name = db.Column(db.String(200), nullable=True)
+	
+	def __init__(self,short):
+		self.short = short
+	
+	def __repr__(self):
+		return '<Type %r>' % self.short
