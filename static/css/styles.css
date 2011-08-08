@@ -5,6 +5,10 @@ body{
 	background:#FFF;
 }
 
+.tempalte{
+	display:none;
+}
+
 #foot{
 	font-size:0.8em;
 }
