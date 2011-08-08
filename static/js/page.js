@@ -30,7 +30,7 @@ $(document).ready(function(){
 		});
 	}).bind("draw",function(event){
 		region = $(this)
-		$(".types",region).hide()
+		$(".type",region).hide()
 		types = region.data("types")
 		for(type in types){
 			$(".type."+type+"",region).data("amount",types[type]).show().width(Math.floor((types[type]/region.data("total"))*region.width())-1)
@@ -58,7 +58,9 @@ $(document).ready(function(){
 					$(".region").trigger("fetch")
 				}
 			})
-	})
+	}).delegate('.type input','click',function(event){
+		$(".region").trigger("fetch");
+	});
 	
 	$("#content").delegate('.type','mouseover',function(event){
 		$(".region").trigger({

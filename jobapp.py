@@ -26,6 +26,7 @@ def get_jobs():
 	# should filter by city/neighborhood here
 	posts = Post.query.all()
 	response_types = {}
+	total = 0
 	if request.method == "POST" and 'types' in request.form:
 		type_list = re.split(',',request.form['types'])
 		for post_type in type_list:
@@ -34,4 +35,5 @@ def get_jobs():
 				if post.post_type == post_type:
 					count += 1
 			response_types[post_type] = count
-	return jsonify(total = len(posts),types = response_types)
+			total += count
+	return jsonify(total = total,types = response_types)
