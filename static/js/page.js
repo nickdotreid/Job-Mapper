@@ -30,18 +30,41 @@ $(document).ready(function(){
 		});
 	}).bind("draw",function(event){
 		region = $(this)
-		$(".type",region).hide()
+		type_divs = $(".type",region);
 		types = region.data("types")
+		for(var i=0;i<type_divs.length;i++){
+			type = false;
+			div = $(type_divs[i]);
+			div_type = div.attr('class').replace(/type/gi,'').replace(/ /gi,'');
+			for(t in types){
+				if(t==div_type){
+					type = t;
+				}
+			}
+			if(type){
+				new_width = Math.floor((types[type]/region.data("total"))*region.width())-1 // extra 1 == right border width
+				div.data("amount",types[type]).show().animate({width:new_width+"px"},{duration:1000,queue:false})
+			}else{
+				div.animate({width:'0px'},{duration:300,complete:function(){
+					type = $(this)
+					if(type.width()<1){
+						type.hide();
+					}
+				}})
+			}
+		}
+		
 		for(type in types){
-			$(".type."+type+"",region).data("amount",types[type]).show().width(Math.floor((types[type]/region.data("total"))*region.width())-1)
+			new_width = Math.floor((types[type]/region.data("total"))*region.width())-1 // extra 1 == right border width
+			$(".type."+type+"",region).data("amount",types[type]).show().animate({width:new_width+"px"},{duration:1000,queue:false})
 		}
 	}).bind("highlight",function(event){
 		region = $(this);
 		$('.type.selected',region).removeClass("selected");
-		$(".note").html("Roll over for number")
+		$(".note").html(region.data("total")+" posts total.")
 		if(event.post_type){
 			$(".type."+event.post_type,region).addClass("selected")
-			$(".note",region).html($("#job_types .type."+event.post_type).data("name")+" // "+$(".type."+event.post_type,region).data("amount")+" Posts")
+			$(".note",region).html($("#job_types .type."+event.post_type).data("name")+" // "+$(".type."+event.post_type,region).data("amount")+" posts.")
 		}
 	}).trigger("highlight")
 	
