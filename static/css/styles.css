@@ -31,6 +31,10 @@ body{
 	margin:14px 0px 0px;
 }
 
+.region .title{
+	margin:0px;
+}
+
 .region .display{
 	height:50px;
 }
