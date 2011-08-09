@@ -7,7 +7,7 @@ $(document).ready(function(){
 		$(".title",new_region).html(event.region)
 		new_region.data("short",event.region)
 		new_region.trigger("fetch");
-	}).delegate(".region","fetch",function(event){
+	}).delegate(".region:not(.template)","fetch",function(event){
 		region = $(this)
 		
 		inputs = ""
@@ -130,6 +130,7 @@ $(document).ready(function(){
 			type:"add_region",
 			region:$("#region").val()
 		})
+		$("#region").val("")
 	})
 	
 	$("#job_types").trigger("fetch");
