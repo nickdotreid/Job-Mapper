@@ -37,3 +37,13 @@ def get_jobs():
 				response_types[short] = count
 				total += count
 	return jsonify(total = total,types = response_types)
+	
+@app.route('/regions',methods=['GET','POST'])
+def get_regions():
+	regions = []
+	if request.method == "POST" and 'term' in request.form:
+		exp = re.compile(request.form['term'])
+		for region in Region.query.all():
+			if exp.search(region.short):
+				regions.append(region.short)
+	return jsonify(regions = regions)
