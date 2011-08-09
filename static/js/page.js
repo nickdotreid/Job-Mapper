@@ -44,6 +44,7 @@ $(document).ready(function(){
 		type_divs = $(".type",region);
 		types = region.data("types")
 		total = region.data("total");
+		//total = $(".region:first").data("total");
 		for(var i=0;i<type_divs.length;i++){
 			type = false;
 			div = $(type_divs[i]);
@@ -65,15 +66,11 @@ $(document).ready(function(){
 				}})
 			}
 		}
-		for(type in types){
-			new_width = Math.floor((types[type]/region.data("total"))*region.width())-1 // extra 1 == right border width
-			$(".type."+type+"",region).data("amount",types[type]).show().animate({width:new_width+"px"},{duration:1000,queue:false})
-		}
 		region.trigger("highlight");
 	}).delegate(".region","highlight",function(event){
 		region = $(this);
 		$('.type.selected',region).removeClass("selected");
-		$(".note").html(region.data("total")+" posts total.")
+		$(".note",region).html(region.data("total")+" posts total.")
 		if(event.post_type){
 			$(".type."+event.post_type,region).addClass("selected")
 			$(".note",region).html($("#job_types .type."+event.post_type).data("name")+" // "+$(".type."+event.post_type,region).data("amount")+" posts.")
