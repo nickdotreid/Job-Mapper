@@ -1,0 +1,1 @@
+from jobapp import app as application
