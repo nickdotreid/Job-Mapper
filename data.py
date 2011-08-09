@@ -28,9 +28,11 @@ def parse_craigslist_post(post):
 
 def save_post(post):
 	if Post.query.filter_by(post_id=post['post_id']).first() is None:
-		post_type = save_post_type(post['post_type'])
-		item = Post(post['post_id'],post['post_date'],post['link'],post['source'],post['city'],post['neighborhood'])
-		item.post_type = post_type
+		item = Post(post['post_id'],post['post_date'],post['link'])
+		item.source = save_region(post['source'])
+		item.region = save_region(post['city'])
+		item.section = save_region(post['neighborhood'])
+		item.post_type = save_post_type(post['post_type'])
 		db.session.add(item)
 		db.session.commit()
 		return True
@@ -45,8 +47,13 @@ def save_post_type(short):
 		return post_type
 	return post_type
 
-def save_post_region(name):
-	return name
+def save_region(short):
+	region = Region.query.filter_by(short=short).first()
+	if region is None:
+		region = Region(short)
+		db.session.add(region)
+		db.session.commit()
+	return region
 
 def query_craigslist(listings,verbose = False):
 	posts = craigslist.fetch_all(listings)
