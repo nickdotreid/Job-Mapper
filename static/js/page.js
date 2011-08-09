@@ -72,10 +72,14 @@ $(document).ready(function(){
 		$.getJSON('/types',function(data){
 				if(data['types']){
 					for(index in data['types']){
-						type = data['types'][index]
+						type = data['types'][index]['short'];
+						name = data['types'][index]['short'];
+						if(data['types'][index]['name']){
+							name = data['types'][index]['name'];
+						}
 						$(".region .display").append('<div class="type '+type+'"></div>');
-						$("#job_types").append('<div class="type '+type+'"><input type="checkbox" value="'+type+'" id="job_type_'+type+'" name="job_types[]" /><label for="job_type_'+type+'" >'+type+'</label></div>')
-						$("#job_types .type:last").data("name",type);
+						$("#job_types").append('<div class="type '+type+'"><input type="checkbox" value="'+type+'" id="job_type_'+type+'" name="job_types[]" /><label for="job_type_'+type+'" >'+name+'</label></div>')
+						$("#job_types .type:last").data("name",name);
 					}
 					$("#job_types input").attr("checked",true)
 					$(".region").trigger("fetch")

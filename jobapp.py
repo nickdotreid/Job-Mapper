@@ -14,11 +14,12 @@ def index():
 
 @app.route('/types')
 def get_types():
-	posts = Post.query.all()
 	types = []
-	for post in posts:
-		if post.post_type not in types:
-			types.append(post.post_type)
+	for post_type in PostType.query.all():
+		types.append({
+			'short':post_type.short,
+			'name':post_type.name
+		})
 	return jsonify(types = types)
 
 @app.route('/posts',methods=['GET','POST'])
@@ -29,11 +30,10 @@ def get_jobs():
 	total = 0
 	if request.method == "POST" and 'types' in request.form:
 		type_list = re.split(',',request.form['types'])
-		for post_type in type_list:
-			count = 0
-			for post in posts:
-				if post.post_type == post_type:
-					count += 1
-			response_types[post_type] = count
-			total += count
+		for short in type_list:
+			post_type = PostType.query.filter_by(short=short).first()
+			if post_type:
+				count = len(post_type.posts.all())
+				response_types[short] = count
+				total += count
 	return jsonify(total = total,types = response_types)
