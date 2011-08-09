@@ -32,6 +32,10 @@ $(document).ready(function(){
 		region = $(this)
 		type_divs = $(".type",region);
 		types = region.data("types")
+		total = 0;
+		for(var i=0;i<type_divs.length;i++){
+			total += $(type_divs[i]).data("amount");
+		}
 		for(var i=0;i<type_divs.length;i++){
 			type = false;
 			div = $(type_divs[i]);
@@ -42,7 +46,7 @@ $(document).ready(function(){
 				}
 			}
 			if(type){
-				new_width = Math.floor((types[type]/region.data("total"))*region.width())-1 // extra 1 == right border width
+				new_width = Math.floor((types[type]/total)*region.width())-1 // extra 1 == right border width
 				div.data("amount",types[type]).show().animate({width:new_width+"px"},{duration:1000,queue:false})
 			}else{
 				div.animate({width:'0px'},{duration:300,complete:function(){
@@ -114,6 +118,7 @@ $(document).ready(function(){
 	
 	$("#add_new").submit(function(event){
 		event.preventDefault();
+		
 	})
 	
 	$("#job_types").trigger("fetch");
