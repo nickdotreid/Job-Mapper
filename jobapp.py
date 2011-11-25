@@ -3,7 +3,7 @@ from flaskext.sqlalchemy import SQLAlchemy
 import re
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////Users/nickreid/Documents/craigslist_maps/jobmaps/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:root@localhost/jobmapper'
 db = SQLAlchemy(app)
 
 from models import *
