@@ -9,8 +9,8 @@ class PostCount(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	post_type_id = db.Column(db.Integer)
 	region_id = db.Column(db.Integer)
-	date = db.Column(db.DateTime)
 	count = db.Column(db.Integer)
+	date = db.Column(db.DateTime,nullable=True)
 	
 	def __init__(self,count,post_type_id,region_id,date):
 		self.count = count
