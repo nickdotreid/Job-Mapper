@@ -4,6 +4,22 @@ import datetime
 def init_db():
 	db.drop_all()
 	db.create_all()
+	
+class PostCount(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	post_type_id = db.Column(db.Integer)
+	region_id = db.Column(db.Integer)
+	date = db.Column(db.DateTime)
+	count = db.Column(db.Integer)
+	
+	def __init__(self,count,post_type_id,region_id,date):
+		self.count = count
+		self.date = date
+		self.region_id = region_id
+		self.post_type_id = post_type_id
+		
+	def __repr__(self):
+		return '<Count %r>' % self.count
 
 		
 class PostType(db.Model):
