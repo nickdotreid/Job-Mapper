@@ -49,6 +49,7 @@ class Region(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	short = db.Column(db.String(80))
 	name = db.Column(db.String(200), nullable=True)
+	published = db.Column(db.Boolean, nullable=True)
 	
 	posts = db.relationship('Post',secondary=region_to_posts,backref=db.backref('posts',lazy='dynamic'))
 	
@@ -59,6 +60,7 @@ class Region(db.Model):
 	
 	def __init__(self,short):
 		self.short = short
+		self.published = False
 	
 	def __repr__(self):
 		return '<Region %r>' % self.short
