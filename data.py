@@ -28,7 +28,7 @@ def parse_craigslist_post(post):
 
 def save_post(post):
 	if Post.query.filter_by(post_id=post['post_id']).first() is None:
-		item = Post(post['post_id'],post['post_date'],post['link'])
+		item = Post(post['post_id'],post['post_date'],post['title'],post['link'])
 		item.source = save_region(post['source'])
 		item.region = save_region(post['city'])
 		item.section = save_region(post['neighborhood'])
