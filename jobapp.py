@@ -18,7 +18,8 @@ def get_types():
 	for post_type in PostType.query.all():
 		types.append({
 			'short':post_type.short,
-			'name':post_type.name
+			'name':post_type.name,
+			'id':post_type.id
 		})
 	return jsonify(types = types)
 
@@ -29,16 +30,19 @@ def get_jobs():
 	response_types = {}
 	total = 0
 	if request.method == "POST" and 'region' in request.form and 'types' in request.form:
-		posts = Region.query.filter_by(short=request.form['region']).first().posts
+		region = Region.query.filter_by(short=request.form['region']).first()
+		count_list = PostCount.query.filter_by(region_id=region.id).all()
+		types = PostType.query.all()
 		type_list = re.split(',',request.form['types'])
-		for short in type_list:
-			post_type = PostType.query.filter_by(short=short).first()
-			count = 0
-			for post in posts:
-				if post_type == post.post_type:
-					count += 1
-			response_types[short] = count
-			total += count
+		for type_short in type_list:
+			for post_type in types:
+				if type_short == post_type.short:
+					post_count = None
+					for count in count_list:
+						if post_type and count.post_type_id == post_type.id:
+							response_types[post_type.short] = count.count
+						if count.post_type_id == None:
+							total = count.count
 	return jsonify(total = total,types = response_types)
 	
 @app.route('/regions',methods=['GET','POST'])
