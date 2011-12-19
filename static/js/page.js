@@ -83,6 +83,7 @@ $(document).ready(function(){
 					for(index in data['types']){
 						type = data['types'][index]['short'];
 						name = data['types'][index]['short'];
+						id = data['types'][index]['id'];
 						if(data['types'][index]['name']){
 							name = data['types'][index]['name'];
 						}
