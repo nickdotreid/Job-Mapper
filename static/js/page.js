@@ -109,21 +109,7 @@ $(document).ready(function(){
 		})
 	}).delegate('.type','mouseout',function(event){
 		$(".region:not(.template)").trigger("highlight");
-	})
-	
-	$("#region").autocomplete({source:function(request,response){
-		$.ajax({
-			url:'/regions',
-			type:'post',
-			dataType:'json',
-			data:{
-				term:request.term
-			},
-			success:function(data){
-				response(data['regions'])
-			}
-		});
-	}});
+	});
 	
 	$("#add_new").submit(function(event){
 		event.preventDefault();
