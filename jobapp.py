@@ -10,10 +10,6 @@ from models import *
 
 @app.route('/')
 def index():
-	return render_template('index.html')
-
-@app.route('/types')
-def get_types():
 	types = []
 	for post_type in PostType.query.all():
 		types.append({
@@ -21,7 +17,7 @@ def get_types():
 			'name':post_type.name,
 			'id':post_type.id
 		})
-	return jsonify(types = types)
+	return render_template('index.html',types=types)
 
 @app.route('/posts',methods=['GET','POST'])
 def get_jobs():

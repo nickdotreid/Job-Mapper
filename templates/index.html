@@ -3,15 +3,12 @@
 {% block content %}
 	<p>Filter job types by click a box.  Add a new region of the sf bay area to compare below.</p>
 	<form id="job_types" class="filters">
-		<!-- LAZY LOAD THE JOB TYPES -->
+		{% for type in types %}
+		<label for="{{type.short}}"><input type="checkbox" id="{{type.short}}" value="{{type.short}}" checked="true" name="types" />{{type.name}}</label>
+		{% endfor %}
 	</form>
 	<div id="chart"></div>
 	<br style="clear:both;">
-	<div class="region template">
-		<h3 class="title">Template</h3>
-		<div class="note"></div>
-		<div class="display"></div>
-	</div>
 	<form id="add_new">
 		<label for="region">Name of region</label>
 		<input type="text" id="region" name="region" value="" />
