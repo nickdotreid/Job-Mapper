@@ -1,23 +1,17 @@
 $(document).ready(function(){
-	
-	
 	$("#content").bind("add_region",function(event){
-		new_region = $("#content .region.template").clone()
-		new_region.removeClass("template").insertBefore("#content .region:last")
-		$(".title",new_region).html(event.region)
-		new_region.data("short",event.region)
-		new_region.trigger("fetch");
-	}).delegate(".region:not(.template)","fetch",function(event){
+		$("#content #chart").append('<div class="region '+event.region+'" data-short="'+event.region+'"><h3 class="title">'+event.region+'</h3></div>');
+		$(".region").trigger("fetch");
+	}).delegate(".region","fetch",function(event){
 		region = $(this)
 		
 		inputs = ""
-		checkboxes = $("#job_types input:checked")
-		for(var i=0;i<checkboxes.length;i++){
+		$("#job_types input:checked").each(function(){
 			if(inputs!=""){
 				inputs += ","
 			}
-			inputs += checkboxes[i].value
-		}
+			inputs += this.value
+		});
 		
 		$.ajax({
 			url:'/posts',
@@ -28,98 +22,33 @@ $(document).ready(function(){
 				region:region.data('short')
 			},
 			success:function(data){
-				if(data['types']){
-					total = 0;
-					for(type in data['types']){
-						amount = data['types'][type];
-						total += amount;
-						$(".type."+type,region).data("amount",amount);
-					}
-					region.data("types",data['types']).data("total",total).trigger("draw");
+				if(!data['types']){
+					alert("ERROR");
 				}
+				region.data("total",data['total']);
+				types = [];
+				for(type in data['types']){
+					types.push({
+						'short':type,
+						'size':data['types'][type],
+					});
+				}
+				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(types).enter().append('div').attr("class","type").style("width","0px");
+				$(".region").trigger("draw");
 			}
 		});
 	}).delegate(".region","draw",function(event){
-		region = $(this)
-		type_divs = $(".type",region);
-		types = region.data("types")
-		total = region.data("total");
-		//total = $(".region:first").data("total");
-		for(var i=0;i<type_divs.length;i++){
-			type = false;
-			div = $(type_divs[i]);
-			div_type_name = div.attr('class').replace(/type/gi,'').replace(/ /gi,'');
-			for(t in types){
-				if(t==div_type_name){
-					type = t;
-				}
-			}
-			new_width = Math.floor((types[type]/total)*region.width())-1 // extra 1 == right border width
-			if(new_width>0){
-				div.show().animate({width:new_width+"px"},{duration:700,queue:false})
-			}else{
-				div.animate({width:'0px'},{duration:200,complete:function(){
-					type = $(this)
-					if(type.width()<1){
-						type.hide();
-					}
-				}})
-			}
-		}
-		region.trigger("highlight");
-	}).delegate(".region","highlight",function(event){
 		region = $(this);
-		$('.type.selected',region).removeClass("selected");
-		$(".note",region).html(region.data("total")+" posts total.")
-		if(event.post_type){
-			$(".type."+event.post_type,region).addClass("selected")
-			$(".note",region).html($("#job_types .type."+event.post_type).data("name")+" // "+$(".type."+event.post_type,region).data("amount")+" posts.")
-		}
+		var x = d3.scale.linear().domain([0, region.data("total")]).range(["0px", $(".display",region).width()+"px"]);
+		d3.selectAll(".region .display .type").transition().duration(1500).style("width",function(d){
+			if(!$("#"+d.short).attr("checked")){
+				return "0px";
+			}
+			return x(d.size);
+		});
+	}).trigger({
+		type:'add_region',
+		region:'sfc'
 	});
-	
-	$("#job_types").bind("fetch",function(event){
-		$.getJSON('/types',function(data){
-				if(data['types']){
-					for(index in data['types']){
-						type = data['types'][index]['short'];
-						name = data['types'][index]['short'];
-						id = data['types'][index]['id'];
-						if(data['types'][index]['name']){
-							name = data['types'][index]['name'];
-						}
-						$(".region .display").append('<div class="type '+type+'"></div>');
-						$("#job_types").append('<div class="type '+type+'"><input type="checkbox" value="'+type+'" id="job_type_'+type+'" name="job_types[]" /><label for="job_type_'+type+'" >'+name+'</label></div>')
-						$("#job_types .type:last").data("name",name);
-					}
-					$("#job_types input").attr("checked",true)
-					$("#content").trigger({
-						type:"add_region",
-						region:"sfbay.craigslist.org"
-					})
-				}
-			})
-	}).delegate('.type input','click',function(event){
-		$(".region").trigger("fetch");
-	});
-	
-	$("#content").delegate('.type','mouseover',function(event){
-		$(".region:not(.template)").trigger({
-			type:'highlight',
-			post_type:$(this).attr('class').replace(/type/gi,'').replace(/ /gi,'')
-		})
-	}).delegate('.type','mouseout',function(event){
-		$(".region:not(.template)").trigger("highlight");
-	});
-	
-	$("#add_new").submit(function(event){
-		event.preventDefault();
-		$("#content").trigger({
-			type:"add_region",
-			region:$("#region").val()
-		})
-		$("#region").val("")
-	})
-	
-	$("#job_types").trigger("fetch");
 	
 })
