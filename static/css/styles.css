@@ -39,6 +39,7 @@ body{
 	height:50px;
 }
 .region .display .type{
+	border-right:1px solid #666;
 	background:#CCC;
 	float:left;
 	display:block;

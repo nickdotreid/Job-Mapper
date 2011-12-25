@@ -39,12 +39,13 @@ $(document).ready(function(){
 		});
 	}).delegate(".region","draw",function(event){
 		region = $(this);
-		var x = d3.scale.linear().domain([0, region.data("total")]).range(["0px", $(".display",region).width()+"px"]);
+		var x = d3.scale.linear().domain([0, region.data("total")]).range([0, $(".display",region).width()]);
 		d3.selectAll(".region .display .type").transition().duration(1500).style("width",function(d){
-			if(!$("#"+d.short).attr("checked")){
+			num = x(d.size)
+			if(num<2 || !$("#"+d.short).attr("checked")){
 				return "0px";
 			}
-			return x(d.size);
+			return (num-1)+'px';
 		});
 	}).trigger({
 		type:'add_region',
