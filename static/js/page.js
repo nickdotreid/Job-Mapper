@@ -52,4 +52,8 @@ $(document).ready(function(){
 		region:'sfc'
 	});
 	
+	$("#job_types input").click(function(event){
+		$("#chart .region").trigger("draw");
+	});
+	
 })
