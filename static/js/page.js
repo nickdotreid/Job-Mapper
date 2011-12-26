@@ -4,23 +4,11 @@ $(document).ready(function(){
 		$(".region:last").trigger("fetch");
 	}).delegate(".region","fetch",function(event){
 		region = $(this)
-		
-		inputs = ""
-		$("#job_types input:checked").each(function(){
-			if(inputs!=""){
-				inputs += ","
-			}
-			inputs += this.value
-		});
-		
 		$.ajax({
 			url:'/posts',
 			type:'post',
 			dataType:'json',
-			data:{
-				types:inputs,
-				region:region.data('short')
-			},
+			data:{region:region.data('short')},
 			success:function(data){
 				if(!data['types']){
 					alert("ERROR");

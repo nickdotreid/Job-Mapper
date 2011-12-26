@@ -21,24 +21,20 @@ def index():
 
 @app.route('/posts',methods=['GET','POST'])
 def get_jobs():
-	# should filter by city/neighborhood here
 	posts = Post.query.all()
 	response_types = {}
 	total = 0
-	if request.method == "POST" and 'region' in request.form and 'types' in request.form:
+	if request.method == "POST" and 'region' in request.form:
 		region = Region.query.filter_by(short=request.form['region']).first()
 		count_list = PostCount.query.filter_by(region_id=region.id).all()
 		types = PostType.query.all()
-		type_list = re.split(',',request.form['types'])
-		for type_short in type_list:
-			for post_type in types:
-				if type_short == post_type.short:
-					post_count = None
-					for count in count_list:
-						if post_type and count.post_type_id == post_type.id:
-							response_types[post_type.short] = count.count
-						if count.post_type_id == None:
-							total = count.count
+		for post_type in types:
+			post_count = None
+			for count in count_list:
+				if post_type and count.post_type_id == post_type.id:
+					response_types[post_type.short] = count.count
+				if count.post_type_id == None:
+					total = count.count
 	return jsonify(total = total,types = response_types)
 	
 @app.route('/regions',methods=['GET','POST'])
