@@ -34,9 +34,7 @@ $(document).ready(function(){
 					});
 				}
 				region.data("types",types);
-				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(types).enter().append('div').attr("class",function(d){
-					return "type "+d.short;
-				}).style("width","0px");
+				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(types).enter().append('div').attr("class",function(d){ return "type "+d.short; }).style("width","0px");
 				$("#chart .region").trigger("draw");
 			}
 		});
