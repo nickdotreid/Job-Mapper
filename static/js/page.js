@@ -1,19 +1,7 @@
 $(document).ready(function(){
-	$("#content").trigger({
-		type:'add_region',
-		region:'sfc'
-	});
 	
 	$("#job_types input").click(function(event){
 		$("#chart .region").trigger("draw");
-	});
-	
-	$("#content").delegate(".quick_add a","click",function(event){
-		event.preventDefault();
-		$("#content").trigger({
-			type:'add_region',
-			region:$(this).attr("href")
-		});
 	});
 	
 	$("#content").delegate(".type","mouseenter",function(event){
@@ -22,5 +10,36 @@ $(document).ready(function(){
 	}).delegate(".type","mouseleave",function(event){
 		class_names = "."+$(this).attr("class").replace(" ",".").replace(" selected","");
 		$("#content "+class_names).removeClass("selected");		
+	});
+	
+	$("#add_new").delegate("input.region","change",function(event){
+		form = $(this).parents("form:first");
+		$(".quick_add",form).html("");
+		$.ajax({
+			url:'/regions',
+			type:'POST',
+			data:{
+				term:this.value
+			},
+			success:function(data){
+				if(data['regions']){
+					for(index in data['regions']){
+						region = data['regions'][index]
+						$(".quick_add",form).append('<li><a href="'+region.short+'">'+region.short+'</a></li>');
+					}
+				}
+			}
+		});
+	}).delegate(".quick_add a",'click',function(event){
+		event.preventDefault();
+		$("#content").trigger({
+			type:'add_region',
+			region:$(this).attr("href")
+		});
+	});
+	
+	$("#content").trigger({
+		type:'add_region',
+		region:'sfc'
 	});
 });

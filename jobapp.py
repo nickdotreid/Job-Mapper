@@ -49,6 +49,9 @@ def get_regions():
 	if request.method == "POST" and 'term' in request.form:
 		exp = re.compile(request.form['term'])
 		for region in Region.query.filter_by(published=True).all():
-			if exp.search(region.short):
-				regions.append(region.short)
+			if exp.search(region.short) or (region.name and exp.search(region.name)):
+				regions.append({
+					'short':region.short,
+					'name':region.name
+				})
 	return jsonify(regions = regions)
