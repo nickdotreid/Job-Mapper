@@ -1,5 +1,11 @@
 {% extends 'layout.html' %}
 
+{% block scripts %}
+{{super}}
+<script type="text/javascript" src="/static/js/barchart.js"></script>
+<script type="text/javascript" src="/static/js/page.js"></script>
+{% endblock %}
+
 {% block content %}
 	<p>Filter job types by click a box.  Add a new region of the sf bay area to compare below.</p>
 	<form id="job_types" class="filters">
