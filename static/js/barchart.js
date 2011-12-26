@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$("#content").bind("add_region",function(event){
 		$("#content #chart").append('<div class="region '+event.region+'" data-short="'+event.region+'"><h3 class="title">'+event.region+'</h3></div>');
-		$(".region:last").trigger("fetch");
+		$("#chart .region:last").trigger("fetch");
 	}).delegate(".region","fetch",function(event){
 		region = $(this)
 		$.ajax({
@@ -10,8 +10,8 @@ $(document).ready(function(){
 			dataType:'json',
 			data:{region:region.data('short')},
 			success:function(data){
-				if(!data['types']){
-					alert("ERROR");
+				if(!data['types'] || data['types'].length<1){
+					return false;
 				}
 				region.data("total",data['total']);
 				region.data("types",data['types']);
