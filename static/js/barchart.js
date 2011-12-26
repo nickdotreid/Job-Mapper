@@ -5,7 +5,7 @@ $(document).ready(function(){
 		if(event.name){
 			name = event.name;
 		}
-		$("#content #chart").append('<div class="region '+short_to_class_name(short)+'" data-short="'+short+'"><h3 class="title">'+name+'</h3></div>');
+		$("#content #chart").append('<div class="region '+short_to_class_name(short)+'" data-short="'+short+'"><h3 class="title">'+name+'</h3><div class="count"><span class="number"></span> Job Postings</div></div>');
 		$(".region."+short_to_class_name(short)).trigger("fetch");
 	}).delegate(".region","fetch",function(event){
 		region = $(this)
@@ -39,7 +39,11 @@ $(document).ready(function(){
 		});
 	}).delegate(".region","draw",function(event){
 		region = $(this);
-		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),type_size)]).range([0, region.width()]);
+		total = d3.sum(region.data("types"),type_size);
+		
+		$(".count .number",region).html(addCommas(total));
+		
+		var x = d3.scale.linear().domain([0, total]).range([0, region.width()]);
 		var xpos = 0;
 		d3.select(this).selectAll("rect").transition().duration(1500).attr("x",function(d){
 			return xpos;
@@ -61,4 +65,16 @@ function type_size(d){
 }
 function short_to_class_name(short){
 	return short.replace(/ /gi,"_").replace(/\//gi,"_").replace(/\./gi,"_");
+}
+
+function addCommas(nStr){
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }
