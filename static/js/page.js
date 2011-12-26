@@ -5,11 +5,11 @@ $(document).ready(function(){
 	});
 	
 	$("#content").delegate(".type","mouseenter",function(event){
-		class_names = "."+$(this).attr("class").replace(" ",".");
-		$("#content "+class_names).addClass("selected");
+		class_names = $(this).attr("class").replace(" ",".");
+		$("#content "+"."+class_names).attr("class",$(this).attr("class")+" selected");
 	}).delegate(".type","mouseleave",function(event){
-		class_names = "."+$(this).attr("class").replace(" ",".").replace(" selected","");
-		$("#content "+class_names).removeClass("selected");		
+		class_names = $(this).attr("class").replace(" ",".").replace(" selected","");
+		$("#content "+"."+class_names).attr("class",$(this).attr("class").replace(" selected",""));		
 	});
 	
 	$("#add_new").delegate("input.region","change",function(event){

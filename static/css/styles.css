@@ -53,8 +53,9 @@ body{
 	stroke:#FFF;
 	fill:#DDD;
 }
-.region .display .type.selected{
+.region .display .type.selected,#job_types .type.selected{
 	background-color:#85bbcf;
+	fill:#85bbcf;
 }
 
 #add_new{
