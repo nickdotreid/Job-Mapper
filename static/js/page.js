@@ -59,7 +59,7 @@ $(document).ready(function(){
 	
 	$("#content").trigger({
 		type:'add_region',
-		short:'sfc',
-		name:'San Francisco'
+		short:'sfbay.craigslist.org',
+		name:'sfbay.craigslist.org'
 	});
 });
