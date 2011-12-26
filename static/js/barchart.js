@@ -1,16 +1,26 @@
 $(document).ready(function(){
 	$("#content").bind("add_region",function(event){
-		$("#content #chart").append('<div class="region '+short_to_class_name(event.region)+'" data-short="'+event.region+'"><h3 class="title">'+event.region+'</h3></div>');
-		$(".region."+short_to_class_name(event.region)).trigger("fetch");
+		short = event.short;
+		name = event.short;
+		if(event.name){
+			name = event.name;
+		}
+		$("#content #chart").append('<div class="region '+short_to_class_name(short)+'" data-short="'+short+'"><h3 class="title">'+name+'</h3></div>');
+		$(".region."+short_to_class_name(short)).trigger("fetch");
 	}).delegate(".region","fetch",function(event){
 		region = $(this)
+		region.addClass("loading");
 		$.ajax({
 			url:'/posts',
 			type:'post',
 			dataType:'json',
 			data:{region:region.data('short')},
 			success:function(data){
+				region.removeClass("loading");
 				if(!data['types'] || data['types'].length<1){
+					region.addClass("error");
+					region.append('<div class="message">There was an error loading this region.</div>');
+					setTimeout('$(".region."'+short_to_class_name(region.data("short"))+')');
 					return false;
 				}
 				region.data("total",data['total']);
@@ -38,6 +48,8 @@ $(document).ready(function(){
 			xpos += num
 			return num;
 		});
+	}).delegate(".region",'close',function(event){
+		$(this).remove();
 	});
 });
 

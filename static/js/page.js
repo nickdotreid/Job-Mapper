@@ -25,6 +25,11 @@ $(document).ready(function(){
 				if(data['regions']){
 					for(index in data['regions']){
 						region = data['regions'][index]
+						short = region.short;
+						name = region.short;
+						if(region.name){
+							name = region.name
+						}
 						$(".quick_add",form).append('<li><a href="'+region.short+'">'+region.short+'</a></li>');
 					}
 				}
@@ -34,12 +39,14 @@ $(document).ready(function(){
 		event.preventDefault();
 		$("#content").trigger({
 			type:'add_region',
-			region:$(this).attr("href")
+			short:$(this).attr("href"),
+			name:$(this).html()
 		});
 	});
 	
 	$("#content").trigger({
 		type:'add_region',
-		region:'sfc'
+		short:'sfc',
+		name:'San Francisco'
 	});
 });
