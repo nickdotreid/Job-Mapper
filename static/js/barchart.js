@@ -20,7 +20,7 @@ $(document).ready(function(){
 				if(!data['types'] || data['types'].length<1){
 					region.addClass("error");
 					region.append('<div class="message">There was an error loading this region.</div>');
-					setTimeout('$(".region."'+short_to_class_name(region.data("short"))+')');
+					setTimeout('$("#chart .region.'+short_to_class_name(region.data("short"))+'").remove();',3000);
 					return false;
 				}
 				region.data("total",data['total']);
