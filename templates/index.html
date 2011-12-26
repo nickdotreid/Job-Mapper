@@ -4,7 +4,7 @@
 	<p>Filter job types by click a box.  Add a new region of the sf bay area to compare below.</p>
 	<form id="job_types" class="filters">
 		{% for type in types %}
-		<label for="{{type.short}}"><input type="checkbox" id="{{type.short}}" value="{{type.short}}" checked="true" name="types" />{{type.name}}</label>
+		<label for="{{type.short}}" class="type {{type.short}}"><input type="checkbox" id="{{type.short}}" value="{{type.short}}" checked="true" name="types" />{{type.name}}</label>
 		{% endfor %}
 	</form>
 	<div id="chart"></div>

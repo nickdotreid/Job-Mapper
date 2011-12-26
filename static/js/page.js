@@ -65,4 +65,12 @@ $(document).ready(function(){
 			region:$(this).attr("href")
 		});
 	});
+	
+	$("#content").delegate(".type","mouseenter",function(event){
+		class_names = "."+$(this).attr("class").replace(" ",".");
+		$("#content "+class_names).addClass("selected");
+	}).delegate(".type","mouseleave",function(event){
+		class_names = "."+$(this).attr("class").replace(" ",".").replace(" selected","");
+		$("#content "+class_names).removeClass("selected");		
+	})
 })
