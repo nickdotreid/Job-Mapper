@@ -45,5 +45,5 @@ function type_size(d){
 	return d.size;
 }
 function short_to_class_name(short){
-	return short.replace(/ /gi,"_").replace(/\//gi,"_");
+	return short.replace(/ /gi,"_").replace(/\//gi,"_").replace(/\./gi,"_");
 }
