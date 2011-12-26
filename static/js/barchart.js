@@ -40,7 +40,7 @@ $(document).ready(function(){
 	}).delegate(".region","draw",function(event){
 		region = $(this);
 		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),type_size)]).range([0, region.width()]);
-		xpos = 0;
+		var xpos = 0;
 		d3.select(this).selectAll("rect").transition().duration(1500).attr("x",function(d){
 			return xpos;
 		}).attr("width",function(d){
