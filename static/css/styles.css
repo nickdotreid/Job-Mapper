@@ -50,12 +50,8 @@ body{
 	height:50px;
 }
 .region .display .type{
-	border-right:1px solid #666;
-	background:#CCC;
-	float:left;
-	display:block;
-	width:5px;
-	height:50px;
+	stroke:#FFF;
+	fill:#DDD;
 }
 .region .display .type.selected{
 	background-color:#85bbcf;

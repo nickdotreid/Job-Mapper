@@ -15,25 +15,28 @@ $(document).ready(function(){
 				}
 				region.data("total",data['total']);
 				region.data("types",data['types']);
-				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(region.data("types")).enter().append('div').attr("class",function(d){ return "type "+d.short; }).style("width","0px");
+				d3.select(region[0])
+					.append('svg:svg').attr("class","display").
+						attr("height",50)
+					.selectAll('rect').data(region.data("types")).enter().append('svg:rect')
+						.attr("class",function(d){ return "type "+d.short; })
+						.attr("x",0)
+						.attr("y",0)
+						.attr("width",0)
+						.attr("height",50);
 				$("#chart .region").trigger("draw");
 			}
 		});
 	}).delegate(".region","draw",function(event){
 		region = $(this);
-		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),type_size)]).range([0, $(".display",region).width()]);
-		d3.select(this).selectAll(".display .type").transition().duration(1500).style("width",function(d){
+		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),type_size)]).range([0, region.width()]);
+		xpos = 0;
+		d3.select(this).selectAll("rect").transition().duration(1500).attr("x",function(d){
+			return xpos;
+		}).attr("width",function(d){
 			num = x(type_size(d));
-			if(num<2){
-				return "0px";
-			}
-			return (num-1)+'px';
-		}).style("border-right-width",function(d){
-			num = x(type_size(d));
-			if(num<2){
-				return "0px";
-			}
-			return "1px";
+			xpos += num
+			return num;
 		});
 	});
 });
