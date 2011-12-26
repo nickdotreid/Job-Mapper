@@ -14,15 +14,26 @@ body{
 }
 
 .wrapper{
-	margin:0px auto;
 	position:relative;
-	width:850px;
+	width:1024px;
+	margin:0px auto;
+}
+
+#job_types{
+	float:left;
+	width:150px;
+	margin:0px 7px 7px 14px;
 }
 
 #job_types .type{
 	display:block;
+	margin:0px 0px 3px;
+}
+
+#chart{
 	float:left;
-	margin-right:7px;
+	width:830px;
+	margin:0px 7px 7px;
 }
 
 .region{
