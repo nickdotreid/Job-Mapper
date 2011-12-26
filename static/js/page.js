@@ -42,21 +42,16 @@ $(document).ready(function(){
 		});
 	}).delegate(".region","draw",function(event){
 		region = $(this);
-		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),function(d){
-			if(!$("#"+d.short).attr("checked")){
-				return 0;
-			}
-			return d.size;
-		})]).range([0, $(".display",region).width()]);
+		var x = d3.scale.linear().domain([0, d3.sum(region.data("types"),type_size)]).range([0, $(".display",region).width()]);
 		d3.select(this).selectAll(".display .type").transition().duration(1500).style("width",function(d){
-			num = x(d.size)
-			if(num<2 || !$("#"+d.short).attr("checked")){
+			num = x(type_size(d));
+			if(num<2){
 				return "0px";
 			}
-			return (num-1)+'px';
+			return (num)+'px';
 		}).style("border-right-width",function(d){
-			num = x(d.size)
-			if(num<2 || !$("#"+d.short).attr("checked")){
+			num = x(type_size(d));
+			if(num<2){
 				return "0px";
 			}
 			return "1px";
@@ -86,3 +81,10 @@ $(document).ready(function(){
 		$("#content "+class_names).removeClass("selected");		
 	})
 })
+
+function type_size(d){
+	if(!$("#"+d.short).attr("checked")){
+		return 0;
+	}
+	return d.size;
+}
