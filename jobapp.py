@@ -26,6 +26,8 @@ def get_jobs():
 	total = 0
 	if request.method == "POST" and 'region' in request.form:
 		region = Region.query.filter_by(short=request.form['region']).first()
+		if not region:
+			return jsonify(total=0,types=[])
 		count_list = PostCount.query.filter_by(region_id=region.id).all()
 		types = PostType.query.all()
 		for post_type in types:
