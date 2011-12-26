@@ -14,15 +14,8 @@ $(document).ready(function(){
 					alert("ERROR");
 				}
 				region.data("total",data['total']);
-				types = [];
-				for(type in data['types']){
-					types.push({
-						'short':type,
-						'size':data['types'][type],
-					});
-				}
-				region.data("types",types);
-				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(types).enter().append('div').attr("class",function(d){ return "type "+d.short; }).style("width","0px");
+				region.data("types",data['types']);
+				d3.select(region[0]).append('div').attr("class","display").selectAll('div.type').data(region.data("types")).enter().append('div').attr("class",function(d){ return "type "+d.short; }).style("width","0px");
 				$("#chart .region").trigger("draw");
 			}
 		});
