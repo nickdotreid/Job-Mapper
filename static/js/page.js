@@ -35,12 +35,25 @@ $(document).ready(function(){
 				}
 			}
 		});
+	}).delegate("input.region","keypress",function(event){
+		input = $(this);
+		if(input.data("timeout")){
+			clearTimeout(input.data("timeout"));
+		}
+		input.data("timeout",setTimeout('$("#add_new input.region").change()',300))
 	}).delegate(".quick_add a",'click',function(event){
 		event.preventDefault();
 		$("#content").trigger({
 			type:'add_region',
 			short:$(this).attr("href"),
 			name:$(this).html()
+		});
+	}).submit(function(event){
+		event.preventDefault();
+		$("#content").trigger({
+			type:'add_region',
+			short:$("input:first",$(this)).val(),
+			name:$("input:first",$(this)).val()
 		});
 	});
 	
