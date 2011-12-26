@@ -46,7 +46,7 @@ $(document).ready(function(){
 			if(num<2){
 				return "0px";
 			}
-			return (num)+'px';
+			return (num-1)+'px';
 		}).style("border-right-width",function(d){
 			num = x(type_size(d));
 			if(num<2){
